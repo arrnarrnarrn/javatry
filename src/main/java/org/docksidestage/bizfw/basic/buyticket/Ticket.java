@@ -26,6 +26,27 @@ public class Ticket {
     //                                                                           =========
     private final int displayPrice;
     private boolean alreadyIn;
+    private int ticketDayType;
+
+    //
+    //    private enum TicketType {
+    //        ONEDAY("一日利用",1),TWODAY("二日利用",2);
+    //        private final String type;
+    //        private final int id;
+    //        private TicketType(String type, int id) {
+    //            this.type = type;
+    //            this.id = id;
+    //        }
+    //        public String getType() {
+    //            return type;
+    //        }
+    //        public int getId() {
+    //            return id;
+    //        }
+    //    }
+    private static enum ticketType {
+        ONEDAY, TWODAY
+    }
 
     // ===================================================================================
     //                                                                         Constructor
@@ -44,6 +65,10 @@ public class Ticket {
         alreadyIn = true;
     }
 
+    public void setTicketDayType(int ticketDayType) {
+        this.ticketDayType = ticketDayType;
+    }
+
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
@@ -53,5 +78,9 @@ public class Ticket {
 
     public boolean isAlreadyIn() {
         return alreadyIn;
+    }
+
+    public int getTicketType() {
+        return ticketDayType;
     }
 }

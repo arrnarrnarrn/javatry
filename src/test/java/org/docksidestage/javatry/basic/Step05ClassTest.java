@@ -165,8 +165,12 @@ public class Step05ClassTest extends PlainTestCase {
      */
     public void test_class_moreFix_type() {
         // your confirmation code here
-        Ticket ticket = new Ticket(7400);
+        //        Ticket ticket = new Ticket(7400);
         // TODO: Ticket単体で判別できるメソッドを追加。Ticketの型を返すようにして、それで判断。
+        TicketBooth booth = new TicketBooth();
+        Ticket oneDayPassport = booth.buyOneDayPassport(10000);
+        oneDayPassport.getTicketType();
+        log(oneDayPassport.getTicketType());
     }
 
     // ===================================================================================
