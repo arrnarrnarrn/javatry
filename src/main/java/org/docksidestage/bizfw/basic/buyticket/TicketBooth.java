@@ -15,6 +15,8 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
+import org.docksidestage.bizfw.basic.buyticket.Ticket.TicketType;
+
 /**
  * @author jflute
  * @auther kawamoto
@@ -28,10 +30,6 @@ public class TicketBooth {
     private static final int TWO_DAY_MAX_QUANTITY = 10;
     private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
     private static final int TWO_DAY_PRICE = 13200;
-
-    private static enum TicketType {
-        ONEDAY, TWODAY
-    }
 
     // ===================================================================================
     //                                                                           Attribute
@@ -54,17 +52,16 @@ public class TicketBooth {
     //                                                                          ==========
 
     public Ticket buyOneDayPassport(int handedMoney) {
-        Ticket ticket = new Ticket(handedMoney);
+        Ticket ticket = new Ticket(handedMoney, TicketType.ONEDAY);
         doBuyPassportFlow(oneDayQuantity, handedMoney, ONE_DAY_PRICE);
-        ticket.setTicketDayType(1);
         return ticket;
     }
 
-    public TicketBuyResult buyTwoDayPassport(int handedMoney, int payment) {
-        int change = handedMoney - payment;
-        TicketBuyResult twoDayTicket = new TicketBuyResult(handedMoney, payment, change);
-        doBuyPassportFlow(twoDayQuantity, handedMoney, payment);
-        return twoDayTicket;
+    public TicketBuyResult buyTwoDayPassport(int handedMoney) {
+        int change = handedMoney - TWO_DAY_PRICE;
+        Ticket ticket = new Ticket(TWO_DAY_PRICE, TicketType.TWODAY);
+        doBuyPassportFlow(twoDayQuantity, handedMoney, TWO_DAY_PRICE);
+        return new TicketBuyResult(handedMoney, TWO_DAY_PRICE, change, ticket);
     }
 
     private void doBuyPassportFlow(Quantity quantity, int handedMoney, int payment) {

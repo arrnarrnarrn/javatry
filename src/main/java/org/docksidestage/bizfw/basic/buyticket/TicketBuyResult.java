@@ -32,11 +32,11 @@ public class TicketBuyResult {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TicketBuyResult(int handedMoney, int payment, int change) {
+    public TicketBuyResult(int handedMoney, int payment, int change, Ticket ticket) {
         this.handedMoney = handedMoney;
         this.payment = payment;
         this.change = change;
-        this.boughtTicket = new Ticket(payment);
+        this.boughtTicket = ticket;
     }
 
     // ===================================================================================
@@ -46,7 +46,11 @@ public class TicketBuyResult {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public int getDisplayPrice() {
+    public int getHandedMoney() {
+        return handedMoney;
+    }
+
+    public int getPaidPrice() {
         return payment;
     }
 

@@ -25,34 +25,34 @@ public class Ticket {
     //                                                                           Attribute
     //                                                                           =========
     private final int displayPrice;
+    private final TicketType ticketType;
     private boolean alreadyIn;
-    private int ticketDayType;
 
-    //
-    //    private enum TicketType {
-    //        ONEDAY("一日利用",1),TWODAY("二日利用",2);
-    //        private final String type;
-    //        private final int id;
-    //        private TicketType(String type, int id) {
-    //            this.type = type;
-    //            this.id = id;
-    //        }
-    //        public String getType() {
-    //            return type;
-    //        }
-    //        public int getId() {
-    //            return id;
-    //        }
-    //    }
-    private static enum ticketType {
-        ONEDAY, TWODAY
+    public enum TicketType {
+        ONEDAY("一日利用", 1), TWODAY("二日利用", 2);
+        private final String title;
+        private final int days;
+
+        private TicketType(String title, int days) {
+            this.title = title;
+            this.days = days;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public int getDays() {
+            return days;
+        }
     }
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public Ticket(int displayPrice) {
+    public Ticket(int displayPrice, TicketType ticketType) {
         this.displayPrice = displayPrice;
+        this.ticketType = ticketType;
     }
 
     // ===================================================================================
@@ -65,9 +65,9 @@ public class Ticket {
         alreadyIn = true;
     }
 
-    public void setTicketDayType(int ticketDayType) {
-        this.ticketDayType = ticketDayType;
-    }
+    //    public void setTicketDayType(TicketType ticketType) {
+    //        this.ticketType = ticketType;
+    //    }
 
     // ===================================================================================
     //                                                                            Accessor
@@ -80,7 +80,7 @@ public class Ticket {
         return alreadyIn;
     }
 
-    public int getTicketType() {
-        return ticketDayType;
+    public String getTicketType() {
+        return ticketType.getTitle();
     }
 }
