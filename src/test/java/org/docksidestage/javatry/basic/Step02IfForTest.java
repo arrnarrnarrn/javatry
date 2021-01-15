@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2020 the original author or authors.
+ * Copyright 2019-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public class Step02IfForTest extends PlainTestCase {
         } else {
             sea = 7;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -67,7 +67,7 @@ public class Step02IfForTest extends PlainTestCase {
         } else {
             sea = 9;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -91,7 +91,7 @@ public class Step02IfForTest extends PlainTestCase {
         if (land) {
             sea = 10;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 10
     }
 
     // ===================================================================================
@@ -107,17 +107,17 @@ public class Step02IfForTest extends PlainTestCase {
                 sea = stage;
             }
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => dockside
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_for_foreach_basic() {
         List<String> stageList = prepareStageList();
         String sea = null;
-        for (String stage : stageList) {
+        for (String stage : stageList) { //拡張for文
             sea = stage;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => magiclamp
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -125,15 +125,15 @@ public class Step02IfForTest extends PlainTestCase {
         List<String> stageList = prepareStageList();
         String sea = null;
         for (String stage : stageList) {
-            if (stage.startsWith("br")) {
-                continue;
+            if (stage.startsWith("br")) { //前一致判定
+                continue; //continueは同ブロック内の以降の処理をすっとばす
             }
             sea = stage;
-            if (stage.contains("ga")) {
+            if (stage.contains("ga")) { //含まれているか判定
                 break;
             }
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => hangar
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -141,15 +141,15 @@ public class Step02IfForTest extends PlainTestCase {
         List<String> stageList = prepareStageList();
         StringBuilder sb = new StringBuilder();
         stageList.forEach(stage -> {
-            if (sb.length() > 0) {
+            if (sb.length() > 0) { //sb長さ0以上でreturn
                 return;
             }
-            if (stage.contains("i")) {
+            if (stage.contains("i")) { //iが含まれているとstage_add
                 sb.append(stage);
             }
         });
         String sea = sb.toString();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => dockside
     }
 
     // ===================================================================================
@@ -161,6 +161,16 @@ public class Step02IfForTest extends PlainTestCase {
      */
     public void test_iffor_making() {
         // write if-for here
+        List<String> stageList = prepareStageList();
+        List<String> filteredList = new ArrayList<>();
+        for (String stage : stageList) {
+            if (stage.contains("a")) {
+                filteredList.add(stage);
+            }
+        }
+        for (String item : filteredList) {
+            log(item);
+        }
     }
 
     // ===================================================================================
@@ -170,19 +180,40 @@ public class Step02IfForTest extends PlainTestCase {
      * Change foreach statement to List's forEach() (keep result after fix) <br>
      * (foreach文をforEach()メソッドへの置き換えてみましょう (修正前と修正後で実行結果が同じになるように))
      */
+
     public void test_iffor_refactor_foreach_to_forEach() {
         List<String> stageList = prepareStageList();
         String sea = null;
-        for (String stage : stageList) {
-            if (stage.startsWith("br")) {
-                continue;
+        ArrayList<String> contain = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<String>();
+        //for (String stage : stageList) {
+        //    if (stage.startsWith("br")) { //前一致判定
+        //        continue; //continueは同ブロック内の以降の処理をすっとばす
+        //    }
+        //    sea = stage;
+        //    if (stage.contains("ga")) { //含まれているか判定
+        //        break;
+        //    }
+        // }
+        //log(sea);
+        //前がbrだと次のindexへ。brでないときstageに上書き。stageがgaを含んでいると終わり。gaが含んでいるものがないと最後に代入されたものが出力。配列に何もない時か先頭がbrのものだけとかだと初期値のnull出力
+        stageList.forEach(stage -> {
+            if (stage.startsWith("br")) { //含まれているか判定
+                return;
             }
-            sea = stage;
+            list.add(stage);
             if (stage.contains("ga")) {
-                break;
+                contain.add(stage);
+                //sea = stage; //スコープの外で宣言された変数を変更することはできない
+                //log(sea); //スコープの外で宣言された変数を使用することはできる
             }
+        });
+        if (contain.size() == 0 && list.size() > 0) {
+            sea = list.get(list.size() - 1); //末尾
+        } else if (contain.size() > 0) {
+            sea = contain.get(0); //先頭
         }
-        log(sea); // should be same as before-fix
+        log(sea);
     }
 
     /**
@@ -196,18 +227,41 @@ public class Step02IfForTest extends PlainTestCase {
      * </pre>
      */
     public void test_iffor_yourExercise() {
-        // write your code here
     }
 
     // ===================================================================================
     //                                                                        Small Helper
     //                                                                        ============
-    private List<String> prepareStageList() {
+    private List<String> prepareStageList() { //default->hangar
         List<String> stageList = new ArrayList<>();
         stageList.add("broadway");
         stageList.add("dockside");
         stageList.add("hangar");
         stageList.add("magiclamp");
+        return stageList;
+    }
+
+    private List<String> prepareStageList2() { //gaが二個->hangar
+        List<String> stageList = new ArrayList<>();
+        stageList.add("broadway");
+        stageList.add("dockside");
+        stageList.add("hangar");
+        stageList.add("garden");
+        stageList.add("magiclamp");
+        return stageList;
+    }
+
+    private List<String> prepareStageList3() { //gaがない->magiclamp
+        List<String> stageList = new ArrayList<>();
+        stageList.add("broadway");
+        stageList.add("dockside");
+        stageList.add("magiclamp");
+        return stageList;
+    }
+
+    private List<String> prepareStageList4() { //null
+        List<String> stageList = new ArrayList<>();
+        stageList.add("broadway");
         return stageList;
     }
 }

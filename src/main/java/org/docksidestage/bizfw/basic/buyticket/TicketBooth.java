@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2020 the original author or authors.
+ * Copyright 2019-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,43 +17,62 @@ package org.docksidestage.bizfw.basic.buyticket;
 
 /**
  * @author jflute
+ * @auther kawamoto
  */
 public class TicketBooth {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final int MAX_QUANTITY = 10;
+    private static final int ONE_DAY_MAX_QUANTITY = 10;
+    private static final int TWO_DAY_MAX_QUANTITY = 10;
     private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
+    private static final int TWO_DAY_PRICE = 13200;
+
+    // private static enum TicketType {
+    //    ONEDAY, TWODAY
+    // }
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private int quantity = MAX_QUANTITY;
+
     private Integer salesProceeds;
+
+    public final Quantity oneDayQuantity = new Quantity(ONE_DAY_MAX_QUANTITY);
+    public final Quantity twoDayQuantity = new Quantity(TWO_DAY_MAX_QUANTITY);
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
+
     public TicketBooth() {
     }
 
     // ===================================================================================
     //                                                                          Buy Ticket
     //                                                                          ==========
-    public void buyOneDayPassport(int handedMoney) {
-        if (quantity <= 0) {
-            throw new TicketSoldOutException("Sold out");
-        }
-        --quantity;
-        if (handedMoney < ONE_DAY_PRICE) {
-            throw new TicketShortMoneyException("Short money: " + handedMoney);
-        }
-        if (salesProceeds != null) {
-            salesProceeds = salesProceeds + handedMoney;
-        } else {
-            salesProceeds = handedMoney;
-        }
+
+    public Ticket buyOneDayPassport(int handedMoney) {
+        Ticket ticket = new Ticket(handedMoney);
+        doBuyPassportFlow(oneDayQuantity, handedMoney, ONE_DAY_PRICE);
+
+        return ticket;
+    }
+
+    public TicketBuyResult buyTwoDayPassport(int handedMoney, int payment) {
+        int change = handedMoney - payment;
+        TicketBuyResult twoDayTicket = new TicketBuyResult(handedMoney, payment, change);
+        doBuyPassportFlow(twoDayQuantity, handedMoney, payment);
+
+        return twoDayTicket;
+    }
+
+    private void doBuyPassportFlow(Quantity quantity, int handedMoney, int payment) {
+        assertTicketInStock(quantity.getValue());
+        assertTicketEnoughMoney(handedMoney, payment);
+        calculateSalesProceeds(payment);
+        quantity.decrement();
     }
 
     public static class TicketSoldOutException extends RuntimeException {
@@ -74,14 +93,36 @@ public class TicketBooth {
         }
     }
 
+    private void assertTicketInStock(int quantity) {
+        if (quantity <= 0) {
+            throw new TicketSoldOutException("Sold out");
+        }
+    }
+
+    //assert＋正常系
+    private void assertTicketEnoughMoney(int handedMoney, int salesPrice) {
+        if (handedMoney < salesPrice) {
+            throw new TicketShortMoneyException("Short money: " + handedMoney);
+        }
+    }
+
+    private void calculateSalesProceeds(int price) {
+        if (salesProceeds != null) {
+            salesProceeds = salesProceeds + price;
+        } else {
+            salesProceeds = price;
+        }
+    }
+
     // ===================================================================================
     //                                                                            Accessor
-    //                                                                            ========
-    public int getQuantity() {
-        return quantity;
-    }
+    //                             
 
     public Integer getSalesProceeds() {
         return salesProceeds;
+    }
+
+    public Quantity getOneDayQuantity() {
+        return oneDayQuantity;
     }
 }

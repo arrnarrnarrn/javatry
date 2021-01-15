@@ -19,39 +19,45 @@ package org.docksidestage.bizfw.basic.buyticket;
  * @author jflute
  * @author kawamoto
  */
-public class Ticket {
+public class TicketBuyResult {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private final int displayPrice;
-    private boolean alreadyIn;
+    private final int payment; // 実際の支払金額: 基本表示金額TwoDay13200
+    private final int handedMoney;
+    private final int change;
+    private final Ticket boughtTicket;
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public Ticket(int displayPrice) {
-        this.displayPrice = displayPrice;
+    public TicketBuyResult(int handedMoney, int payment, int change) {
+        this.handedMoney = handedMoney;
+        this.payment = payment;
+        this.change = change;
+        this.boughtTicket = new Ticket(payment);
     }
 
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
-    public void doInPark() {
-        if (alreadyIn) {
-            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
-        }
-        alreadyIn = true;
-    }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
     public int getDisplayPrice() {
-        return displayPrice;
+        return payment;
     }
 
-    public boolean isAlreadyIn() {
-        return alreadyIn;
+    public Ticket getTicket() {
+        return boughtTicket;
+    }
+
+    public int getChange() {
+        if (change < 0) { // 念のため
+            throw new IllegalStateException("ありえないバグあり:" + handedMoney);
+        }
+        return change;
     }
 }
