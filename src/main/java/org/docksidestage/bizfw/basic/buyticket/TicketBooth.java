@@ -28,7 +28,7 @@ public class TicketBooth {
     //                                                                          ==========
     private static final int ONE_DAY_MAX_QUANTITY = 10;
     private static final int TWO_DAY_MAX_QUANTITY = 10;
-    private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
+    // private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
     private static final int TWO_DAY_PRICE = 13200;
 
     // ===================================================================================
@@ -52,23 +52,21 @@ public class TicketBooth {
     //                                                                          ==========
 
     public Ticket buyOneDayPassport(int handedMoney) {
-        Ticket ticket = new Ticket(handedMoney, TicketType.ONEDAY);
-        doBuyPassportFlow(oneDayQuantity, handedMoney, ONE_DAY_PRICE);
-        return ticket;
+        return doBuyPassportFlow(oneDayQuantity, handedMoney, TicketType.ONEDAY);
     }
 
     public TicketBuyResult buyTwoDayPassport(int handedMoney) {
         int change = handedMoney - TWO_DAY_PRICE;
-        Ticket ticket = new Ticket(TWO_DAY_PRICE, TicketType.TWODAY);
-        doBuyPassportFlow(twoDayQuantity, handedMoney, TWO_DAY_PRICE);
-        return new TicketBuyResult(handedMoney, TWO_DAY_PRICE, change, ticket);
+        Ticket ticket = doBuyPassportFlow(twoDayQuantity, handedMoney, TicketType.TWODAY);
+        return new TicketBuyResult(handedMoney, change, ticket);
     }
 
-    private void doBuyPassportFlow(Quantity quantity, int handedMoney, int payment) {
+    private Ticket doBuyPassportFlow(Quantity quantity, int handedMoney, TicketType ticketType) {
         assertTicketInStock(quantity.getValue());
-        assertTicketEnoughMoney(handedMoney, payment);
-        calculateSalesProceeds(payment);
+        assertTicketEnoughMoney(handedMoney, ticketType.getPrice());
+        calculateSalesProceeds(ticketType.getPrice());
         quantity.decrement();
+        return new Ticket(ticketType);
     }
 
     public static class TicketSoldOutException extends RuntimeException {

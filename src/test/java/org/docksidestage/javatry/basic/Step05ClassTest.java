@@ -138,7 +138,7 @@ public class Step05ClassTest extends PlainTestCase {
         // comment out after modifying the method
         TicketBooth booth = new TicketBooth();
         Ticket oneDayPassport = booth.buyOneDayPassport(10000);
-        log(oneDayPassport.getDisplayPrice()); // should be same as one-day price
+        log(oneDayPassport.getTicketPrice()); // should be same as one-day price
         log(oneDayPassport.isAlreadyIn()); // should be false
         oneDayPassport.doInPark();
         log(oneDayPassport.isAlreadyIn()); // should be true
@@ -155,7 +155,7 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBuyResult twoDayPassportResult = booth.buyTwoDayPassport(handedMoney);
         Ticket twoDayPassport = twoDayPassportResult.getTicket();
         int change = twoDayPassportResult.getChange();
-        log(twoDayPassport.getDisplayPrice() + change); // should be same as money
+        log(twoDayPassport.getTicketPrice() + change); // should be same as money
     }
 
     /**
@@ -163,9 +163,6 @@ public class Step05ClassTest extends PlainTestCase {
      * (チケットをもらってもOneDayなのかTwoDayなのか区別が付きません。区別を付けられるメソッドを追加しましょう)
      */
     public void test_class_moreFix_type() {
-        // your confirmation code here
-        //        Ticket ticket = new Ticket(7400);
-        // TODO: Ticket単体で判別できるメソッドを追加。Ticketの型を返すようにして、それで判断。
         TicketBooth booth = new TicketBooth();
         Ticket oneDayPassport = booth.buyOneDayPassport(10000);
         log(oneDayPassport.getTicketType());

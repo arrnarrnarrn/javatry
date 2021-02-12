@@ -45,7 +45,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     //                                        --------------
     /**
      * Fix several mistakes in buying one-day passport and in-park process. <br>
-     * (OneDayPassportを買って InPark する処理の中で、間違いがいくつかあるので修正しましょう)
+     * (OneDayPassportを買って InPark する処理の中で、間違いが5つあるので修正しましょう)
      */
     public void test_objectOriented_aboutObject_againstObject() {
         //
@@ -134,7 +134,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // _/_/_/_/_/_/_/_/_/_/
         //Ticket ticket = booth.buyOneDayPassport(10000);
         booth.buyOneDayPassport(10000); // as temporary, remove if you finished steo05
-        Ticket ticket = new Ticket(7400, TicketType.ONEDAY); // also here
+        Ticket ticket = new Ticket(TicketType.ONEDAY); // also here
 
         // *buyOneDayPassport() has this process:
         //if (quantity <= 0) {
@@ -184,7 +184,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     }
 
     private void doShowYourTicket(Ticket ticket) {
-        log("Your Ticket: displayPrice={}, alreadyIn={}", ticket.getDisplayPrice(), ticket.isAlreadyIn());
+        log("Your Ticket: displayPrice={}, alreadyIn={}", ticket.getTicketPrice(), ticket.isAlreadyIn());
     }
 
     // ===================================================================================

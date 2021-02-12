@@ -19,23 +19,25 @@ package org.docksidestage.bizfw.basic.buyticket;
  * @author jflute
  * @author kawamoto
  */
+
 public class Ticket {
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private final int displayPrice;
     private final TicketType ticketType;
     private boolean alreadyIn;
 
     public enum TicketType {
-        ONEDAY("一日利用", 1), TWODAY("二日利用", 2);
+        ONEDAY("一日利用", 1, 7400), TWODAY("二日利用", 2, 13200);
         private final String title;
         private final int days;
+        private final int price;
 
-        private TicketType(String title, int days) {
+        private TicketType(String title, int days, int price) {
             this.title = title;
             this.days = days;
+            this.price = price;
         }
 
         public String getTitle() {
@@ -45,13 +47,16 @@ public class Ticket {
         public int getDays() {
             return days;
         }
+
+        public int getPrice() {
+            return price;
+        }
     }
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public Ticket(int displayPrice, TicketType ticketType) {
-        this.displayPrice = displayPrice;
+    public Ticket(TicketType ticketType) {
         this.ticketType = ticketType;
     }
 
@@ -60,7 +65,7 @@ public class Ticket {
     //                                                                             =======
     public void doInPark() {
         if (alreadyIn) {
-            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
+            throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + getTicketPrice());
         }
         alreadyIn = true;
     }
@@ -72,15 +77,24 @@ public class Ticket {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public int getDisplayPrice() {
-        return displayPrice;
-    }
 
     public boolean isAlreadyIn() {
         return alreadyIn;
     }
 
-    public String getTicketType() {
+    public TicketType getTicketType() {
+        return ticketType;
+    }
+
+    public String getTicketTitle() {
         return ticketType.getTitle();
+    }
+
+    public int getTicketDays() {
+        return ticketType.getDays();
+    }
+
+    public int getTicketPrice() {
+        return ticketType.getPrice();
     }
 }

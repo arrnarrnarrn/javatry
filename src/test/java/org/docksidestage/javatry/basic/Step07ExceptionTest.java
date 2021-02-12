@@ -1,5 +1,5 @@
 /*
- * Copyright 2019-2020 the original author or authors.
+ * Copyright 2019-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -203,7 +203,10 @@ public class Step07ExceptionTest extends PlainTestCase {
         }
     }
 
-    private void helpThrowIllegalState() { // simple implementation here
-        throw new IllegalStateException("something illegal");
+    private void helpThrowIllegalState() {
+        if (true) { // simulate something illegal
+            String importantValue = "dummy"; // important to debug
+            throw new IllegalStateException("something illegal: importantValue=" + importantValue);
+        }
     }
 }

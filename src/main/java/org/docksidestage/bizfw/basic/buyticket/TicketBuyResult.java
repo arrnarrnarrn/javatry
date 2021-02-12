@@ -24,7 +24,6 @@ public class TicketBuyResult {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private final int payment; // 実際の支払金額: 基本表示金額TwoDay13200
     private final int handedMoney;
     private final int change;
     private final Ticket boughtTicket;
@@ -32,9 +31,8 @@ public class TicketBuyResult {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-    public TicketBuyResult(int handedMoney, int payment, int change, Ticket ticket) {
+    public TicketBuyResult(int handedMoney, int change, Ticket ticket) {
         this.handedMoney = handedMoney;
-        this.payment = payment;
         this.change = change;
         this.boughtTicket = ticket;
     }
@@ -51,7 +49,7 @@ public class TicketBuyResult {
     }
 
     public int getPaidPrice() {
-        return payment;
+        return boughtTicket.getTicketPrice();
     }
 
     public Ticket getTicket() {
