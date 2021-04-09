@@ -28,8 +28,8 @@ public class TicketBooth {
     //                                                                          ==========
     private static final int ONE_DAY_MAX_QUANTITY = 10;
     private static final int TWO_DAY_MAX_QUANTITY = 10;
-    // private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
-    private static final int TWO_DAY_PRICE = 13200;
+    private static final int FOUR_DAY_MAX_QUANTITY = 10;
+    private static final int NIGHT_ONLY_TWO_DAY_MAX_QUANTITY = 10;
 
     // ===================================================================================
     //                                                                           Attribute
@@ -39,6 +39,8 @@ public class TicketBooth {
 
     public final Quantity oneDayQuantity = new Quantity(ONE_DAY_MAX_QUANTITY);
     public final Quantity twoDayQuantity = new Quantity(TWO_DAY_MAX_QUANTITY);
+    public final Quantity fourDayQuantity = new Quantity(FOUR_DAY_MAX_QUANTITY);
+    public final Quantity nightOnlyTwoDayQuantity = new Quantity(NIGHT_ONLY_TWO_DAY_MAX_QUANTITY);
 
     // ===================================================================================
     //                                                                         Constructor
@@ -56,8 +58,20 @@ public class TicketBooth {
     }
 
     public TicketBuyResult buyTwoDayPassport(int handedMoney) {
-        int change = handedMoney - TWO_DAY_PRICE;
         Ticket ticket = doBuyPassportFlow(twoDayQuantity, handedMoney, TicketType.TWODAY);
+        int change = handedMoney - ticket.getTicketPrice();
+        return new TicketBuyResult(handedMoney, change, ticket);
+    }
+
+    public TicketBuyResult buyFourDayPassport(int handedMoney) {
+        Ticket ticket = doBuyPassportFlow(fourDayQuantity, handedMoney, TicketType.FOURDAY);
+        int change = handedMoney - ticket.getTicketPrice();
+        return new TicketBuyResult(handedMoney, change, ticket);
+    }
+
+    public TicketBuyResult buyNightOnlyTwoDayPassport(int handedMoney) {
+        Ticket ticket = doBuyPassportFlow(nightOnlyTwoDayQuantity, handedMoney, TicketType.NIGHT_ONLY_TWODAY);
+        int change = handedMoney - ticket.getTicketPrice();
         return new TicketBuyResult(handedMoney, change, ticket);
     }
 
@@ -119,4 +133,5 @@ public class TicketBooth {
     public Quantity getOneDayQuantity() {
         return oneDayQuantity;
     }
+
 }

@@ -16,6 +16,7 @@
 package org.docksidestage.javatry.basic;
 
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
+import org.docksidestage.bizfw.basic.buyticket.Ticket.TicketType;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth.TicketShortMoneyException;
 import org.docksidestage.bizfw.basic.buyticket.TicketBuyResult;
@@ -169,37 +170,52 @@ public class Step05ClassTest extends PlainTestCase {
         TicketBuyResult twoDayPassportResult = booth.buyTwoDayPassport(14000);
         Ticket twoDayPassport = twoDayPassportResult.getTicket();
         log(twoDayPassport.getTicketType());
+        if (twoDayPassport.getTicketType() == TicketType.ONEDAY) {
+            log("ONEDAY");
+        }
+        if (twoDayPassport.getTicketType() == TicketType.TWODAY) {
+            log("TWODAY");
+        }
+    }
+
+    /**
+     * Now you can use only one in spite of two-day passport, so fix Ticket to be able to handle plural days. <br>
+     * (TwoDayPassportなのに一回しか利用できません。複数日数に対応できるようにTicketを修正しましょう)
+     */
+    public void test_class_moreFix_usePluralDays() {
+        // your confirmation code here
+        TicketBooth booth = new TicketBooth();
+        TicketBuyResult twoDayPassportResult = booth.buyTwoDayPassport(14000);
+        Ticket twoDayPassport = twoDayPassportResult.getTicket();
+        log(twoDayPassport.getTicketType());
+        twoDayPassport.doInPark();
+        twoDayPassport.doInPark(); // two
+        // twoDayPassport.doInPark(); // tsukaenai
     }
 
     // ===================================================================================
     //                                                                           Good Luck
     //                                                                           =========
     /**
-     * Now only one use with two-day passport, so split ticket in one-day and two-day class and use interface. <br>
-     * <pre>
-     * o change Ticket class to interface, define doInPark(), getDisplayPrice() in it
-     * o make class for one-day and class for plural days (called implementation class)
-     * o make implementation classes implement Ticket interface
-     * o doInPark() of plural days can execute defined times
-     * </pre>
-     * (TwoDayのチケットが一回しか利用できません。OneDayとTwoDayのクラスを分けてインターフェースを使うようにしましょう)
-     * <pre>
-     * o Ticket をインターフェース(interface)にして、doInPark(), getDisplayPrice() を定義
-     * o OneDay用のクラスと複数日用のクラスを作成 (実装クラスと呼ぶ)
-     * o 実装クラスが Ticket を implements するように
-     * o 複数日用のクラスでは、決められた回数だけ doInPark() できるように
-     * </pre>
-     */
-    public void test_class_moreFix_useInterface() {
-        // your confirmation code here
-    }
-
-    /**
      * Fix it to be able to buy four-day passport (price is 22400). <br>
      * (FourDayPassport (金額は22400) のチケットも買えるようにしましょう)
      */
-    public void test_class_moreFix_wonder() {
-        // your confirmation code here
+    public void test_class_moreFix_wonder_four() {
+        TicketBooth booth = new TicketBooth();
+        TicketBuyResult fourDayPassportResult = booth.buyFourDayPassport(40000);
+        Ticket fourDayPassport = fourDayPassportResult.getTicket();
+        log(fourDayPassport.getTicketType());
+    }
+
+    /**
+     * Fix it to be able to buy night-only two-day passport (price is 7400). <br>
+     * (NightOnlyTwoDayPassport (金額は7400) のチケットも買えるようにしましょう)
+     */
+    public void test_class_moreFix_wonder_night() {
+        TicketBooth booth = new TicketBooth();
+        TicketBuyResult nightOnlyTwoDayPassportResult = booth.buyNightOnlyTwoDayPassport(10000);
+        Ticket nightOnlyTwoDayPassport = nightOnlyTwoDayPassportResult.getTicket();
+        log(nightOnlyTwoDayPassport.getTicketType());
     }
 
     /**
@@ -207,6 +223,6 @@ public class Step05ClassTest extends PlainTestCase {
      * (その他、気になるところがあったらリファクタリングしてみましょう (例えば、バランスの良いメソッド名や変数名になっていますか？))
      */
     public void test_class_moreFix_yourRefactoring() {
-        // write confirmation code here
+        // your confirmation code here
     }
 }

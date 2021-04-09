@@ -27,9 +27,10 @@ public class Ticket {
     //                                                                           =========
     private final TicketType ticketType;
     private boolean alreadyIn;
+    private int useTicketCount = 0;
 
     public enum TicketType {
-        ONEDAY("一日利用", 1, 7400), TWODAY("二日利用", 2, 13200);
+        ONEDAY("一日利用", 1, 7400), NIGHT_ONLY_TWODAY("夜間限定2日利用", 2, 7400), TWODAY("二日利用", 2, 13200), FOURDAY("四日利用", 4, 22400);
         private final String title;
         private final int days;
         private final int price;
@@ -64,10 +65,12 @@ public class Ticket {
     //                                                                             In Park
     //                                                                             =======
     public void doInPark() {
-        if (alreadyIn) {
+        if (useTicketCount >= ticketType.getDays()) {
             throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + getTicketPrice());
         }
+        useTicketCount++;
         alreadyIn = true;
+        // WIP: seirityuu
     }
 
     //    public void setTicketDayType(TicketType ticketType) {
