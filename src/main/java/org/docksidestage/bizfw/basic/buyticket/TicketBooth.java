@@ -26,6 +26,7 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
+
     private static final int ONE_DAY_MAX_QUANTITY = 10;
     private static final int TWO_DAY_MAX_QUANTITY = 10;
     private static final int FOUR_DAY_MAX_QUANTITY = 10;
@@ -59,20 +60,24 @@ public class TicketBooth {
 
     public TicketBuyResult buyTwoDayPassport(int handedMoney) {
         Ticket ticket = doBuyPassportFlow(twoDayQuantity, handedMoney, TicketType.TWODAY);
-        int change = handedMoney - ticket.getTicketPrice();
+        int change = calculateChange(handedMoney, ticket);
         return new TicketBuyResult(handedMoney, change, ticket);
     }
 
     public TicketBuyResult buyFourDayPassport(int handedMoney) {
         Ticket ticket = doBuyPassportFlow(fourDayQuantity, handedMoney, TicketType.FOURDAY);
-        int change = handedMoney - ticket.getTicketPrice();
+        int change = calculateChange(handedMoney, ticket);
         return new TicketBuyResult(handedMoney, change, ticket);
     }
 
     public TicketBuyResult buyNightOnlyTwoDayPassport(int handedMoney) {
         Ticket ticket = doBuyPassportFlow(nightOnlyTwoDayQuantity, handedMoney, TicketType.NIGHT_ONLY_TWODAY);
-        int change = handedMoney - ticket.getTicketPrice();
+        int change = calculateChange(handedMoney, ticket);
         return new TicketBuyResult(handedMoney, change, ticket);
+    }
+
+    private int calculateChange(int handedMoney, Ticket ticket) {
+        return handedMoney - ticket.getTicketPrice();
     }
 
     private Ticket doBuyPassportFlow(Quantity quantity, int handedMoney, TicketType ticketType) {
