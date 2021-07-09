@@ -32,6 +32,15 @@ public class TicketBuyResult {
     //                                                                         Constructor
     //                                                                         ===========
     public TicketBuyResult(int handedMoney, int change, Ticket ticket) {
+        if (handedMoney < 0) {
+            throw new IllegalArgumentException("The argument 'handedMoney' should not be minus");
+        }
+        if (change < 0) {
+            throw new IllegalArgumentException("The argument 'change' should not be minus");
+        }
+        if (ticket == null) {
+            throw new IllegalArgumentException("The argument 'ticket' should not be null");
+        }
         this.handedMoney = handedMoney;
         this.change = change;
         this.boughtTicket = ticket;
@@ -57,9 +66,6 @@ public class TicketBuyResult {
     }
 
     public int getChange() {
-        if (change < 0) { // 念のため
-            throw new IllegalStateException("ありえないバグあり:" + handedMoney);
-        }
         return change;
     }
 }

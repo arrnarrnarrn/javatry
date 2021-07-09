@@ -19,7 +19,6 @@ package org.docksidestage.bizfw.basic.buyticket;
  * @author jflute
  * @author kawamoto
  */
-
 public class Ticket {
 
     // ===================================================================================
@@ -70,17 +69,14 @@ public class Ticket {
         }
         useTicketCount++;
         alreadyIn = true;
-        // WIP: seirityuu
     }
-
-    //    public void setTicketDayType(TicketType ticketType) {
-    //        this.ticketType = ticketType;
-    //    }
 
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-
+    /**
+     * @return 一回でも入場したらtrue
+     */
     public boolean isAlreadyIn() {
         return alreadyIn;
     }

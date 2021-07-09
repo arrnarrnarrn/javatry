@@ -26,7 +26,6 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-
     private static final int ONE_DAY_MAX_QUANTITY = 10;
     private static final int TWO_DAY_MAX_QUANTITY = 10;
     private static final int FOUR_DAY_MAX_QUANTITY = 10;
@@ -35,7 +34,6 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-
     private Integer salesProceeds;
 
     public final Quantity oneDayQuantity = new Quantity(ONE_DAY_MAX_QUANTITY);
@@ -46,14 +44,12 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
-
     public TicketBooth() {
     }
 
     // ===================================================================================
     //                                                                          Buy Ticket
     //                                                                          ==========
-
     public Ticket buyOneDayPassport(int handedMoney) {
         return doBuyPassportFlow(oneDayQuantity, handedMoney, TicketType.ONEDAY);
     }
@@ -80,6 +76,9 @@ public class TicketBooth {
         return handedMoney - ticket.getTicketPrice();
     }
 
+    // ===================================================================================
+    //                                                                                Flow
+    //                                                                          ==========
     private Ticket doBuyPassportFlow(Quantity quantity, int handedMoney, TicketType ticketType) {
         assertTicketInStock(quantity.getValue());
         assertTicketEnoughMoney(handedMoney, ticketType.getPrice());
@@ -130,7 +129,6 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                            Accessor
     //                             
-
     public Integer getSalesProceeds() {
         return salesProceeds;
     }
@@ -138,5 +136,4 @@ public class TicketBooth {
     public Quantity getOneDayQuantity() {
         return oneDayQuantity;
     }
-
 }

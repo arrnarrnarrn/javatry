@@ -190,7 +190,7 @@ public class Step05ClassTest extends PlainTestCase {
         log(twoDayPassport.getTicketType());
         twoDayPassport.doInPark();
         twoDayPassport.doInPark(); // two
-        // twoDayPassport.doInPark(); // tsukaenai
+        // twoDayPassport.doInPark(); // 利用上限は2回なので3回目は使えない
     }
 
     // ===================================================================================
